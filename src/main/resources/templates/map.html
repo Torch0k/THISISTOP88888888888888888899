@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Отображение адресов на карте</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <script src="https://api-maps.yandex.ru/2.1/?apikey=8357b4a6-e8d0-4242-9797-06cb372b417e&lang=ru_RU"></script>
+</head>
+<body>
+<div id="map" style="width: 800px; height: 600px"></div>
+
+<div>
+    <label for="addressInput">Введите адрес:</label>
+    <input type="text" id="addressInput">
+    <button onclick="geocodeAndAddMarkerFromInput()">Получить координаты</button>
+</div>
+
+<div id="coordinatesOutput"></div>
+
+<script>
+    var myMap;
+    var placemarks = [];
+
+    function initMap() {
+        myMap = new ymaps.Map("map", {
+            center: [55.76, 37.64],
+            zoom: 10
+        });
+
+        var addresses = [
+            "Россия, Москва, Центрнаучфильм, Киностудия; Валдайский пр., 16",
+            "Россия, Москва, посёлок Коммунарка, 33",
+            "Россия, Москва, Щербинка, Театральная улица, 1А",
+            // Добавьте остальные адреса здесь
+        ];
+
+        for (var i = 0; i < addresses.length; i++) {
+            geocodeAndAddMarker(addresses[i]);
+        }
+    }
+
+    function geocodeAndAddMarker(address) {
+        ymaps.geocode(address, { results: 1 }).then(function (res) {
+            var coordinates = res.geoObjects.get(0).geometry.getCoordinates();
+            var fullAddress = res.geoObjects.get(0).getAddressLine();
+
+            var placemark = new ymaps.Placemark(coordinates, {
+                balloonContent: fullAddress
+            });
+            placemarks.push(placemark);
+
+            myMap.geoObjects.add(placemark);
+        });
+    }
+
+    function geocodeAndAddMarkerFromInput() {
+        var address = document.getElementById("addressInput").value;
+        ymaps.geocode(address, { results: 1 }).then(function (res) {
+            var coordinates = res.geoObjects.get(0).geometry.getCoordinates();
+            var fullAddress = res.geoObjects.get(0).getAddressLine();
+
+            var placemark = new ymaps.Placemark(coordinates, {
+                balloonContent: fullAddress
+            });
+            placemarks.push(placemark);
+
+            myMap.geoObjects.add(placemark);
+            myMap.setCenter(coordinates, 15);
+
+            updateCoordinatesOutput(coordinates, fullAddress);
+        });
+    }
+
+    function updateCoordinatesOutput(coords, address) {
+        var output = "Координаты: " + coords.join(', ');
+        document.getElementById("coordinatesOutput").innerHTML = output;
+    }
+
+    ymaps.ready(initMap);
+</script>
+</body>
+</html>
