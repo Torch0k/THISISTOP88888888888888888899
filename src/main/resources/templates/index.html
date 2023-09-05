@@ -2,6 +2,8 @@
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
   <title>Мой веб-сайт</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <script src="https://api-maps.yandex.ru/2.1/?apikey=8357b4a6-e8d0-4242-9797-06cb372b417e&lang=ru_RU"></script>
 </head>
 <body>
 <nav>
@@ -10,11 +12,41 @@
     <li><a href="/login">Вход</a></li>
     <li><a href="/register">Регистрация</a></li>
     <li><a href="/map">интерактивная карта</a></li>
-    <li><a href="/daiManky">дай короды</a></li>
-
   </ul>
 </nav>
 <h1 th:text="${message}">Сообщение должно здесь отобразиться</h1>
+<script>
+  var myMap;
+  var placemarks = [];
+  function initMap() {
+    myMap = new ymaps.Map("map", {
+      center: [55.76, 37.64],
+      zoom: 8
+    });
+    var addresses = [
+      "Россия, Москва, Центрнаучфильм, Киностудия; Валдайский пр., 16",
+      "Россия, Москва, посёлок Коммунарка, 33",
+      "Россия, Москва, Щербинка, Театральная улица, 1А",
+      // Добавьте остальные адреса здесь
+    ];
+    for (var i = 0; i < addresses.length; i++) {
+      geocodeAndAddMarker(addresses[i]);
+    }
+  }
+  function geocodeAndAddMarker(address) {
+    ymaps.geocode(address, { results: 1 }).then(function (res) {
+      var coordinates = res.geoObjects.get(0).geometry.getCoordinates();
+      var fullAddress = res.geoObjects.get(0).getAddressLine();
+      var placemark = new ymaps.Placemark(coordinates, {
+        balloonContent: fullAddress
+      });
+      placemarks.push(placemark);
+      myMap.geoObjects.add(placemark);
+    });
+  }
+  ymaps.ready(initMap);
+</script>
 
+<div id="map" style="width: 500px; height: 400px"></div>
 </body>
 </html>
