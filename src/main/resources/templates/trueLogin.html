@@ -78,7 +78,7 @@
 <script>
   function goToPersonalCabinet() {
     // Установите URL страницы "Личный кабинет"
-    window.location.href = "/vnutriBunkera"; // Замените на URL вашей страницы
+    window.location.href = "/login"; // Замените на URL вашей страницы
   }
   // Отобразить кнопку "Перейти в личный кабинет"
   function showGoToPersonalButton() {
@@ -125,7 +125,7 @@
         geocodeAndAddMarker(addresses[i]);
       }
     }
-
+  var nearestAddress = ""
     function geocodeAndAddMarkerFromInput() {
       var address = document.getElementById("addressInput").value;
       ymaps.geocode(address, {results: 1}).then(function (res) {

@@ -26,7 +26,8 @@ public class LoginController {
         user.setPassword(password);
         user.setUsername(username);
         userRepository.save(user);
-        return "redirect:/login"; // Перенаправление на страницу входа после регистрации
+
+        return "redirect:/trueLogin"; // Перенаправление на страницу выбоар бунекера после регистрации
     }
     @GetMapping("/vnutriBunkera")
     public String goToVnutriBunkera() {
