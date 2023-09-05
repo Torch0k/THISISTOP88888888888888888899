@@ -18,16 +18,21 @@ public class LoginController {
     @GetMapping("/trueLogin")  // вход
     public String successfulLogin() {return "trueLogin";}
     @GetMapping("/register")   // регистрация
-    public String register() {return "registration";}
+    public String register() {return "trueLogin";}
     @PostMapping("/register")
-    public String processRegistration(@RequestParam String username, @RequestParam String password) {
+    public String processRegistration(@RequestParam String username, @RequestParam String password,@RequestParam Float latitude,@RequestParam Float longitude,
+                                      @RequestParam String nearestAddress) {
         // Создание нового пользователя и добавление его в репозиторий
         User user = new User();
         user.setPassword(password);
         user.setUsername(username);
+        user.setLatitude(latitude); // Сохраните широту
+        user.setLongitude(longitude); // Сохраните долготу
+        user.setNearestAddress(nearestAddress); // Сохраните ближайший адрес
         userRepository.save(user);
 
-        return "redirect:/trueLogin"; // Перенаправление на страницу выбоар бунекера после регистрации
+
+        return "redirect:/vnutriBunkera"; // Перенаправление на страницу выбоар бунекера после регистрации
     }
     @GetMapping("/vnutriBunkera")
     public String goToVnutriBunkera() {

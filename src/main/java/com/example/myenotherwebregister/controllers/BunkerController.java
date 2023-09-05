@@ -40,6 +40,7 @@ public class BunkerController {
                     .orElse(null);
             if (selectedLocation != null) {
                 String address = selectedLocation.getAddress();
+
                 return ResponseEntity.ok("в вашем доме найден бункер! Адрес дома и бункера: " + address);
             } else {
                 return ResponseEntity.ok("в вашем доме найден бункер");
