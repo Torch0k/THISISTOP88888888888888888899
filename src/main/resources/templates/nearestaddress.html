@@ -1,0 +1,57 @@
+<div>
+    <label htmlFor="addressInput">Введите адрес:</label>
+    <input type="text" id="addressInput">
+    <button id="getCoordinatesButton">Получить координаты</button>
+    <div id="comparisonResult"></div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<script>
+    var myMap;
+    var placemarks = [];
+
+    $(document).ready(function () {
+        // Обработчик события при нажатии кнопки "Получить координаты"
+        $("#getCoordinatesButton").click(function () {
+            geocodeAndAddMarkerFromInput();
+        });
+    });
+
+    function geocodeAndAddMarkerFromInput() {
+        var address = document.getElementById("addressInput").value;
+        ymaps.geocode(address, {results: 1}).then(function (res) {
+            var coordinates = res.geoObjects.get(0).geometry.getCoordinates();
+            var fullAddress = res.geoObjects.get(0).getAddressLine();
+
+            var placemark = new ymaps.Placemark(coordinates, {
+                balloonContent: fullAddress
+            });
+            placemarks.push(placemark);
+
+            myMap.geoObjects.add(placemark);
+            myMap.setCenter(coordinates, 15);
+
+            // Вызываем функцию для отправки координат на сервер
+            sendCoordinatesToServer(coordinates);
+        });
+    }
+
+    function sendCoordinatesToServer(coordinates) {
+        // Отправляем координаты на сервер с использованием jQuery
+        $.ajax({
+            type: "POST", // Тип запроса (POST)
+            url: "/compare_coordinates", // URL вашего метода на сервере
+            contentType: "application/json",
+            data: JSON.stringify({latitude: coordinates[0], longitude: coordinates[1]}), // Отправляем широту и долготу
+            success: function (response) {
+                // Обработка успешного ответа от сервера
+                document.getElementById("comparisonResult").innerText = response;
+            },
+            error: function () {
+                // Обработка ошибок, если таковые возникнут
+                document.getElementById("comparisonResult").innerText = "Произошла ошибка при запросе к серверу.";
+            }
+        });
+    }
+</script>

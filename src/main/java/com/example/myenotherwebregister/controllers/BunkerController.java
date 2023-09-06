@@ -28,7 +28,7 @@ public class BunkerController {
 
 
     @PostMapping("/compare_coordinates")
-    public ResponseEntity<String> compareCoordinates(@RequestBody Location data,HttpServletRequest request) {
+    public ResponseEntity<String> compareCoordinates(@RequestBody Location data, HttpServletRequest request) {
         float userLatitude = data.getLatitude();
         float userLongitude = data.getLongitude();
         User currentUser = getCurrentUser(request);
@@ -58,16 +58,17 @@ public class BunkerController {
                     user.setLatitude(userLatitude);
                     user.setLongitude(userLongitude);
                     user.setNearestAddress(nearestAddress);
-                    userRepository.save(currentUser);
+                    userRepository.save(user);
                 }
 
-                return ResponseEntity.ok("в вашем доме бункеров не найдено. Ближайший бункер находиться по адресу : " + nearestAddress);
+                return ResponseEntity.ok("в вашем доме бункеров не найдено. Ближайший бункер находится по адресу: " + nearestAddress);
             } else {
                 return ResponseEntity.ok("в вашем доме бункеров не найдено");
             }
         }
     }
 
+    // Метод для поиска ближайших координат в locationRepository
     private Location findNearestLocation(float targetLatitude, float targetLongitude) {
         List<Location> allLocations = locationRepository.findAll();
         Location nearestLocation = null;

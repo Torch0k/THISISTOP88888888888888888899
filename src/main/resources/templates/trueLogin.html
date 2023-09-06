@@ -77,7 +77,8 @@
 
     <input type="number" id="longitude" name="longitude" step="any" required><br>
     <label for="nearestAddress"></label><input type="text" id="nearestAddress"/>
-    <button type="submit">узнать ближайший бункер</button>
+
+
   </div>
   <button type="submit" id="registerButton" style="display: none;">Зарегистрироваться</button>
 </form>
@@ -91,6 +92,7 @@
 </div>
 <form id="compareForm">
 
+  <button type="submit">узнать ближайший бункер </button>
 </form>
 <script>
   function goToPersonalCabinet() {
@@ -107,25 +109,6 @@
     document.getElementById("compareForm").addEventListener("submit", function (event) {
       event.preventDefault();
 
-      const compareLatitude = document.getElementById("compareLatitude").value;
-      const compareLongitude = document.getElementById("compareLongitude").value;
-
-      const compareData = {latitude: parseFloat(compareLatitude), longitude: parseFloat(compareLongitude)};
-
-      fetch('/api/compare_coordinates', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(compareData)
-      })
-              .then(response => response.text())
-              .then(result => {
-                document.getElementById("comparisonResult").textContent = result;
-                document.getElementById("nearestAddress").textContent = result;
-
-              });
-      document.getElementById("registerButton").style.display = "block";
     });
     var myMap;
     var placemarks = [];
@@ -145,8 +128,9 @@
         geocodeAndAddMarker(addresses[i]);
       }
     }
-  var nearestAddress = ""
+
     function geocodeAndAddMarkerFromInput() {
+
       var address = document.getElementById("addressInput").value;
       ymaps.geocode(address, {results: 1}).then(function (res) {
         var coordinates = res.geoObjects.get(0).geometry.getCoordinates();
@@ -164,6 +148,7 @@
 
         updateCoordinatesOutput(coordinates, fullAddress); // обновление координат пользователя и добавление записи о ближайшем бункере
         showGoToPersonalButton(); // показати кнопки для переходи в личный кабинет после сохранения координат
+
       });
     }
 
