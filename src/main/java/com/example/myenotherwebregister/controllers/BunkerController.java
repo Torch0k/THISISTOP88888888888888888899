@@ -8,6 +8,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Comparator;
@@ -25,6 +26,17 @@ public class BunkerController {
     @Autowired
     private UserRepository userRepository;
 
+    @GetMapping("/getusernearestadres")
+    public String getUserAddress(Model model, HttpServletRequest request) {
+        // Получаем информацию о текущем авторизованном пользователе с использованием вашего метода
+        User user = getCurrentUser(request);
+
+        if (user != null) {
+            model.addAttribute("userAddress", user.getNearestAddress());
+        }
+
+        return "user"; // Имя представления (user.html)
+    }
 
 
     @PostMapping("/compare_coordinates")

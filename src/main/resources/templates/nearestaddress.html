@@ -1,3 +1,14 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <title>Yandex Map Example</title>
+    <!-- Подключаем Yandex Map API с вашим ключом -->
+    <script src="https://api-maps.yandex.ru/2.1/?apikey=8357b4a6-e8d0-4242-9797-06cb372b417e&lang=ru_RU"></script>
+    <!-- Подключаем jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
 <div>
     <label htmlFor="addressInput">Введите адрес:</label>
     <input type="text" id="addressInput">
@@ -5,18 +16,29 @@
     <div id="comparisonResult"></div>
 </div>
 
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<!-- Добавляем контейнер для карты -->
+<div id="map" style="width: 600px; height: 400px;"></div>
 
 <script>
     var myMap;
     var placemarks = [];
 
     $(document).ready(function () {
+        // Инициализация карты
+        ymaps.ready(initMap);
+
         // Обработчик события при нажатии кнопки "Получить координаты"
         $("#getCoordinatesButton").click(function () {
             geocodeAndAddMarkerFromInput();
         });
     });
+
+    function initMap() {
+        myMap = new ymaps.Map("map", {
+            center: [55.755773, 37.617761], // Центр карты (Москва)
+            zoom: 10 // Масштаб карты
+        });
+    }
 
     function geocodeAndAddMarkerFromInput() {
         var address = document.getElementById("addressInput").value;
@@ -41,12 +63,13 @@
         // Отправляем координаты на сервер с использованием jQuery
         $.ajax({
             type: "POST", // Тип запроса (POST)
-            url: "/compare_coordinates", // URL вашего метода на сервере
+            url: "/api/compare_coordinates", // URL вашего метода на сервере
             contentType: "application/json",
             data: JSON.stringify({latitude: coordinates[0], longitude: coordinates[1]}), // Отправляем широту и долготу
             success: function (response) {
                 // Обработка успешного ответа от сервера
                 document.getElementById("comparisonResult").innerText = response;
+                window.location.href = "/vnutriBunkera";
             },
             error: function () {
                 // Обработка ошибок, если таковые возникнут
@@ -55,3 +78,5 @@
         });
     }
 </script>
+</body>
+</html>

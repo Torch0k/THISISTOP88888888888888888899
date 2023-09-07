@@ -44,7 +44,7 @@ public class LoginController {
     public String registerAndGetCoordinates(
             @RequestParam String username,
             @RequestParam String password,
-            HttpServletRequest request) {
+            HttpServletRequest request,Model model) {
         // Создание нового пользователя и добавление его в репозиторий
         User user = new User();
         user.setPassword(password);
@@ -53,6 +53,7 @@ public class LoginController {
         userRepository.save(user);
         HttpSession session = request.getSession();
         session.setAttribute("username", username);
+        model.addAttribute("userAddress", user.getNearestAddress());
 
 
         // Перенаправляем пользователя на страницу /login
@@ -76,13 +77,18 @@ public class LoginController {
         User user = userRepository.findByUsername(username);
         if (user != null && user.getPassword().equals(password)) {
             // Успешная аутентификация
+
             HttpSession session = request.getSession();
             session.setAttribute("username", username);
-        } else {
-            model.addAttribute("error", "Неверное имя пользователя или пароль");
-            return "login";
+            model.addAttribute("userAddress", user.getNearestAddress());
+            if (user.getNearestAddress() != null) {
+                return "kabinet";
+            } else {
+                return "nearestaddress";
+            }
         }
-        return "nearestaddress";
+        model.addAttribute("error", "Неверное имя пользователя или пароль");
+        return "login";
     }
 
 

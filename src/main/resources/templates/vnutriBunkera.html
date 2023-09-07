@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html xmlns:th="http://www.thymeleaf.org">
 <head>
   <title>Мой веб-сайт</title>
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -36,48 +36,54 @@
   </style>
 </head>
 <body>
-Для добавления красивой надписи "Ближайший бункер -" рядом с nearestAddress в вашем коде, вы можете обернуть их в элемент <div> и добавить стили для форматирования. Вот как это можно сделать:
+<h1>Личный кабинЭЭТ</h1>
+<div class="map-container">
+  <div class="map" id="map"></div>
+  <div class="bunker-info">
 
-  html
-
-  <h1>Личный кабинЭЭТ</h1>
-  <div class="map-container">
-    <div class="map" id="map"></div>
-    <div class="bunker-info">
-      <div class="bunker-label">Ближайший бункер -</div>
-      <p class="bunker-address" th:text="${nearestAddress}"></p>
-    </div>
+    <!-- Отображение адреса бункера -->
+    <p class="bunker-address" id="user-address" th:text="${userAddress}"></p>
   </div>
+</div>
 
+<script>
+  var myMap;
+  var placemarks = [];
 
-  <script>
-    var myMap;
-    var placemarks = [];
-    function initMap() {
-      myMap = new ymaps.Map("map", {
-        center: [55.76, 37.64],
-        zoom: 8
-      });
-      var addresses = [
-        // Добавьте адреса здесь
-      ];
-      for (var i = 0; i < addresses.length; i++) {
-        geocodeAndAddMarker(addresses[i]);
-      }
+  // Вам нужно передать адрес пользователя в JavaScript из вашего серверного кода
+
+  console.log(userAddress);
+  function initMap() {
+    myMap = new ymaps.Map("map", {
+      center: [55.76, 37.64],
+      zoom: 8
+    });
+
+    // Устанавливаем адрес пользователя в элемент с id "user-address"
+    document.getElementById("user-address").textContent = userAddress;
+
+    var addresses = [
+      // Добавьте другие адреса здесь, если необходимо
+    ];
+
+    for (var i = 0; i < addresses.length; i++) {
+      geocodeAndAddMarker(addresses[i]);
     }
-    function geocodeAndAddMarker(address) {
-      ymaps.geocode(address, { results: 1 }).then(function (res) {
-        var coordinates = res.geoObjects.get(0).geometry.getCoordinates();
-        var fullAddress = res.geoObjects.get(0).getAddressLine();
-        var placemark = new ymaps.Placemark(coordinates, {
-          balloonContent: fullAddress
-        });
-        placemarks.push(placemark);
-        myMap.geoObjects.add(placemark);
+  }
+
+  function geocodeAndAddMarker(address) {
+    ymaps.geocode(address, { results: 1 }).then(function (res) {
+      var coordinates = res.geoObjects.get(0).geometry.getCoordinates();
+      var fullAddress = res.geoObjects.get(0).getAddressLine();
+      var placemark = new ymaps.Placemark(coordinates, {
+        balloonContent: fullAddress
       });
-    }
-    ymaps.ready(initMap);
-  </script>
-  </div>
+      placemarks.push(placemark);
+      myMap.geoObjects.add(placemark);
+    });
+  }
+
+  ymaps.ready(initMap);
+</script>
 </body>
 </html>
