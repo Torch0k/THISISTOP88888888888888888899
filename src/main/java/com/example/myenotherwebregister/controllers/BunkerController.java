@@ -71,6 +71,7 @@ public class BunkerController {
                     user.setLongitude(userLongitude);
                     user.setNearestAddress(nearestAddress);
                     userRepository.save(user);
+
                 }
 
                 return ResponseEntity.ok("в вашем доме бункеров не найдено. Ближайший бункер находится по адресу: " + nearestAddress);

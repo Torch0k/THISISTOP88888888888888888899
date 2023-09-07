@@ -57,7 +57,7 @@ public class LoginController {
 
 
         // Перенаправляем пользователя на страницу /login
-        return "index";
+        return "nearestaddress";
     }
     @GetMapping("/vnutriBunkera")
     public String goToVnutriBunkera() {
@@ -65,6 +65,10 @@ public class LoginController {
     }
     @Autowired
     public UserRepository userRepository;
+    @GetMapping("/kabinet")
+    public String showkabinetPage() {
+        return "kabinet"; //карта с адресами
+    }
 
     @GetMapping("/map")
     public String showMapPage() {
