@@ -56,7 +56,8 @@ public class LoginController {
         model.addAttribute("userAddress", user.getNearestAddress());
 
 
-        // Перенаправляем пользователя на страницу /login
+        // Перенаправляем пользователя на страницу /узнавания адреса
+
         return "nearestaddress";
     }
     @GetMapping("/vnutriBunkera")
@@ -66,10 +67,19 @@ public class LoginController {
     @Autowired
     public UserRepository userRepository;
     @GetMapping("/kabinet")
-    public String showkabinetPage() {
-        return "kabinet"; //карта с адресами
-    }
+    public String showkabinetPage(Model model,HttpServletRequest request) {
+        HttpSession session = request.getSession();//получаем обьект сессии из hhtp запроса
 
+
+        User user = userRepository.findByUsername(session.getAttribute("username").toString());//получаем пользователя из репозитория по юзернейму из сессии
+        List<User> matchingUsers = userRepository.findByNearestAddress(user.getNearestAddress());//поулчаем список пользователей с таким же бункером каки убратившегося пользователя
+
+        model.addAttribute("FriendList", matchingUsers);//добовляем в модель отфильтрованный список (модель используетсья шаблонищатором thymeleaf для отображения на
+        return "kabinet"; //личный кабинет
+
+    }
+    @GetMapping("/index")
+    public String mainPage(){return "index";}//главная страница
     @GetMapping("/map")
     public String showMapPage() {
         return "map"; //карта с адресами
@@ -86,7 +96,7 @@ public class LoginController {
             session.setAttribute("username", username);
             model.addAttribute("userAddress", user.getNearestAddress());
             if (user.getNearestAddress() != null) {
-                return "kabinet";
+               return showkabinetPage(model,request);
             } else {
                 return "nearestaddress";
             }
