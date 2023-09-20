@@ -1,11 +1,7 @@
 package com.example.myenotherwebregister.controllers;
 
-import com.example.myenotherwebregister.Repository.LocationRepository;
-import com.example.myenotherwebregister.Repository.UserRepository;
 import com.example.myenotherwebregister.Services.LoginService;
-import com.example.myenotherwebregister.model.User;
 import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -13,8 +9,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-
-import java.util.List;
 
 @Controller
 public class LoginController {
@@ -30,8 +24,12 @@ public class LoginController {
     public String mainPage(){return loginService.mainPage();}//главная страница
     @GetMapping("/map")// Обработка запроса на страницу карты
     public String showMapPage() {return loginService.showMapPage();} //карта с адресами}
+    @GetMapping("/personalPage") //
+    public String personalPage() {return loginService.personalPage();} // персональная страница
     @GetMapping("/login")// Обработка запроса на страницу входа
     public String login(Model model) {return "login";}
+    @GetMapping("feedBack")
+    public String feedBack(){return loginService.feedBack();}
     @PostMapping("/login") // Обработка POST-запроса для обработки входа пользователя.
     public String processLogin(@RequestParam String username, @RequestParam String password, Model model, HttpServletRequest request) {
         return loginService.processLogin(username,password,model,request);}

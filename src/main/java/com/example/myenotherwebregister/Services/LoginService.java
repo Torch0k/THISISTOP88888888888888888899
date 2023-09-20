@@ -18,6 +18,8 @@ public class LoginService {
     public String register() {return "signUp";} // страница регистрации
     public String mainPage(){return "index";}  // главная страница
     public String showMapPage() {return "map";}  // карта с бункерами
+    public String personalPage(){return "personalPage";} // личная страничка
+    public String feedBack(){return "feedBack";} // страницка обратной связи
 
     @Autowired
     public UserRepository userRepository;

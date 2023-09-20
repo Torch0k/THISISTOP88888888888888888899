@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" type="text/css" href="../static/stylelogin.css">
+</head>
+<body>
+<nav>
+    <ul>
+        <li><a href="/">Главная</a></li>
+        <li><a href="/login">Вход</a></li>
+        <li><a href="/register">Регистрация</a></li>
+        <li><a href="/map">интерактивная карта</a></li>
+        <li><a href="/kabinet">личный кабинет</a></li>
+        <li><a href="/feedBack"> FeedBack </a></li>
+
+    </ul>
+</nav>
+<h2>Обратная связь</h2>
+<form th:action="@{/feedBackSent}" method="post">
+<label for="title">Заголовок темы:</label>
+<input type="text" id="title" name="title" class="input-field">
+    <label for="name">Имя:</label>
+    <input type="text" id="name" name="name" th:value="${session.username}" readonly required><br><br>
+
+    <label for="message">Сообщение:</label><br>
+    <textarea id="message" name="message" rows="5" cols="40" required></textarea><br><br>
+
+    <button type="submit">Отправить</button>
+</form>
+</body>
+</html>

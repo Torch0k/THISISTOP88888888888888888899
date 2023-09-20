@@ -1,73 +1,92 @@
-/* Стили для основного контейнера */
+/* Стиль для всего body */
 body {
-    font-family: Arial, sans-serif;
-    background-color: #f0f0f0;
-    margin: 0;
-    padding: 0;
-    text-align: center;
+    font-family: 'Roboto', sans-serif; /* Устанавливаем шрифт для текста на странице */
+    background-color: #000; /* Цвет фона */
+    color: #FFF; /* Цвет текста */
+    margin: 0; /* Убираем внешние отступы */
+    padding: 0; /* Убираем внутренние отступы */
 }
 
-/* Стили для контейнера формы */
-h2 {
-    color: #333;
+/* Стиль для навигационного меню */
+nav {
+    background-color: #0066cc; /* Цвет фона навигационного меню */
+    padding: 10px; /* Поля вокруг навигационного меню */
 }
 
-/* Стили для ссылки "вернуться на Главную" */
-li {
-    list-style: none;
-    margin: 0;
-    padding: 0;
+nav ul {
+    list-style: none; /* Убираем маркеры списка */
+    padding: 0; /* Убираем отступы списка */
 }
 
-a {
-    text-decoration: none;
-    color: #007bff;
+nav ul li {
+    display: inline; /* Элементы списка располагаются в строку */
+    margin-right: 20px; /* Отступ между элементами списка */
 }
 
-a:hover {
-    text-decoration: underline;
+nav ul li a {
+    text-decoration: none; /* Убираем подчеркивание ссылок */
+    color: #FFF; /* Цвет текста ссылок */
+    font-weight: bold; /* Жирный шрифт для ссылок */
 }
 
-/* Стили для формы */
+/* Стиль для заголовка h1 */
+h1 {
+    text-align: center; /* Выравнивание текста по центру */
+    color: #FFF; /* Цвет текста заголовка */
+    margin-top: 40px; /* Верхний отступ заголовка */
+    font-size: 36px; /* Размер шрифта заголовка */
+}
+
+/* Стиль для карты */
+#map {
+    width: 800px; /* Ширина карты */
+    height: 600px; /* Высота карты */
+    margin: 20px auto; /* Центрирование карты по горизонтали с отступом сверху и снизу */
+    border: 1px solid #ccc; /* Обводка карты */
+}
+
+/* Стиль для формы */
 form {
-    background-color: #fff;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    padding: 20px;
-    max-width: 400px;
-    margin: 0 auto;
-    box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+    background-color: #222; /* Цвет фона формы */
+    border: 1px solid #444; /* Обводка формы */
+    border-radius: 5px; /* Скругление углов формы */
+    padding: 20px; /* Внутренние отступы формы */
+    max-width: 450px; /* Максимальная ширина формы */
+    margin: 0 auto; /* Центрирование формы по горизонтали */
+    box-shadow: 0px 0px 10px rgba(44, 108, 19, 0.1); /* Тень формы */
 }
 
-/* Стили для полей ввода и меток */
+/* Стиль для полей ввода и меток */
 label {
-    display: block;
-    font-weight: bold;
-    margin-bottom: 5px;
-    color: #333;
+    display: block; /* Блочное отображение меток */
+    font-weight: bold; /* Жирный шрифт меток */
+    margin-bottom: 5px; /* Отступ снизу меток */
+    color: #FFF; /* Цвет текста меток */
 }
 
 input[type="text"],
 input[type="password"] {
-    width: 100%;
-    padding: 10px;
-    margin-bottom: 20px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
+    width: 96%; /* Ширина полей ввода на 100% ширины родительского контейнера */
+    padding: 10px; /* Внутренние отступы полей ввода */
+    margin-bottom: 20px; /* Отступ снизу полей ввода */
+    border: 1px solid #444; /* Обводка полей ввода */
+    border-radius: 5px; /* Скругление углов полей ввода */
+    background-color: #333; /* Цвет фона полей ввода */
+    color: #FFF; /* Цвет текста в полях ввода */
 }
 
-/* Стили для кнопки "Войти" */
+/* Стиль для кнопки "Войти" */
 button[type="submit"] {
-    background-color: #007bff;
-    color: #fff;
-    border: none;
-    border-radius: 5px;
-    padding: 10px 20px;
-    cursor: pointer;
-    font-size: 16px;
-    transition: background-color 0.3s;
+    background-color: #0066cc; /* Цвет фона кнопки "Войти" */
+    color: #FFF; /* Цвет текста кнопки "Войти" */
+    border: none; /* Убираем границу кнопки */
+    border-radius: 5px; /* Скругление углов кнопки */
+    padding: 10px 20px; /* Внутренние отступы кнопки */
+    cursor: pointer; /* Задаем курсор в виде указателя при наведении на кнопку */
+    font-size: 16px; /* Размер шрифта кнопки */
+    transition: background-color 0.3s; /* Плавное изменение цвета фона при наведении */
 }
 
 button[type="submit"]:hover {
-    background-color: #0056b3;
+    background-color: #004499; /* Новый цвет фона при наведении на кнопку */
 }

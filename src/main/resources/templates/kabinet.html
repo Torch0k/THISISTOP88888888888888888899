@@ -3,9 +3,20 @@
 <head>
   <meta charset="UTF-8">
   <title>Ближайший бункер</title>
-  <link rel="stylesheet" type="text/css" href="../static/kabinet.css">
+  <link rel="stylesheet" type="text/css" href="../static/stylelogin.css">
 </head>
 <body>
+<nav>
+  <ul>
+    <li><a href="/">Главная</a></li>
+    <li><a href="/login">Вход</a></li>
+    <li><a href="/register">Регистрация</a></li>
+    <li><a href="/map">интерактивная карта</a></li>
+    <li><a href="/kabinet">личный кабинет</a></li>
+    <li><a href="/feedBack"> FeedBack </a></li>
+
+  </ul>
+</nav>
 <h1>Ближайший бункер - <span th:text="${userAddress}"></span></h1>
 <table>
   <thead>
@@ -15,7 +26,9 @@
   </thead>
   <tbody>
   <tr th:each="user : ${FriendList}">
-    <td th:text="${user.username}"></td>
+    <td>
+      <a th:href="@{/user/{id}(id = ${user.id})}" th:text="${user.username}"></a>
+    </td>
   </tr>
   </tbody>
 </table>

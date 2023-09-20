@@ -6,8 +6,17 @@
     <link rel="stylesheet" type="text/css" href="../static/stylelogin.css">
 </head>
 <body>
+<nav>
+    <ul>
+        <li><a href="/">Главная</a></li>
+        <li><a href="/login">Вход</a></li>
+        <li><a href="/register">Регистрация</a></li>
+        <li><a href="/map">интерактивная карта</a></li>
+        <li><a href="/kabinet">личный кабинет</a></li>
+    </ul>
+</nav>
 <div class="container">
-    <a href="/">вернуться на Главную</a>
+
 
     <h2>Регистрация</h2>
     <form th:action="@{/saveUser}" method="post" class="registration-form">
