@@ -9,8 +9,8 @@
 <nav>
     <ul>
         <li><a href="/">Главная</a></li>
-        <li><a href="/login">Вход</a></li>
-        <li><a href="/register">Регистрация</a></li>
+        <li th:unless="${session.username != null}" id="loginLink"><a href="/login">Вход</a></li>
+        <li th:unless="${session.username != null}"><a href="/register">Регистрация</a></li>
         <li><a href="/map">интерактивная карта</a></li>
         <li><a href="/kabinet">личный кабинет</a></li>
         <li><a href="/feedBack"> FeedBack </a></li>

@@ -13,14 +13,6 @@ import java.util.List;
 
 @Service
 public class LoginService {
-
-    // обработки запросов на страницы
-    public String register() {return "signUp";} // страница регистрации
-    public String mainPage(){return "index";}  // главная страница
-    public String showMapPage() {return "map";}  // карта с бункерами
-    public String personalPage(){return "personalPage";} // личная страничка
-    public String feedBack(){return "feedBack";} // страницка обратной связи
-
     @Autowired
     public UserRepository userRepository;
     public String SaveUser(
@@ -34,6 +26,7 @@ public class LoginService {
         userRepository.save(user);
         HttpSession session = request.getSession();
         session.setAttribute("username", username);
+        session.setAttribute("isLoggedIn", true);
         model.addAttribute("userAddress", user.getNearestAddress());
         // Перенаправляем пользователя на страницу /узнавания адреса
         return "nearestaddress";
@@ -44,12 +37,14 @@ public class LoginService {
             User user = userRepository.findByUsername(session.getAttribute("username").toString());//получаем пользователя из репозитория по юзер нейму из сессии
             List<User> matchingUsers = userRepository.findByNearestAddress(user.getNearestAddress());//поучаем список пользователей с таким же бункером каки обратившегося пользователя
             model.addAttribute("FriendList", matchingUsers);//добавляем в модель отфильтрованный список (модель используется шаблонизатором thymeleaf для отображения на
+            model.addAttribute("userAddress", user.getNearestAddress());
             return "kabinet"; //личный кабинет
         } else {
             model.addAttribute("message","Авторизуйтесь пж");
             return "index";
         }
     }
+
     public String processLogin(@RequestParam String username, @RequestParam String password, Model model, HttpServletRequest request) { // Метод для обработки запроса на аутентификацию пользователя
 
         User user = userRepository.findByUsername(username); // Ищем пользователя по его имени в репозитории
@@ -57,6 +52,7 @@ public class LoginService {
             HttpSession session = request.getSession();// Получаем или создаем сессию для пользователя
             session.setAttribute("username", username); // Устанавливаем атрибут "username" в сессии для обозначения аутентифицированного пользователя
             model.addAttribute("userAddress", user.getNearestAddress());// Добавляем атрибут "userAddress" в модель содержащий информацию о ближайшем адресе пользователя
+            session.setAttribute("isLoggedIn", true);
             if (user.getNearestAddress() != null) {        // Проверяем, есть ли у пользователя ближайший адрес
                 return showkabinetPage(model,request); // Если есть перенаправляем пользователя на страницу личного кабинета
             } else { // если -
@@ -65,7 +61,7 @@ public class LoginService {
         }
 
         model.addAttribute("error", "Неверное имя пользователя или пароль"); // Если пользователь не найден или пароль не совпадает, добавляем атрибут "error" в модель
-                                                                                                    // с сообщением об ошибке и возвращаем страницу входа с сообщением об ошибке //
+        model.addAttribute("isLoggedIn", false);                             // с сообщением об ошибке и возвращаем страницу входа с сообщением об ошибке //
         return "login";                                                                             // TODO: 11.09.2023 помоему я не использую вывод сообщения и модель error надобы удалить .
 
     }

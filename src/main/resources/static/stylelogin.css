@@ -1,92 +1,103 @@
-/* Стиль для всего body */
 body {
-    font-family: 'Roboto', sans-serif; /* Устанавливаем шрифт для текста на странице */
-    background-color: #000; /* Цвет фона */
-    color: #FFF; /* Цвет текста */
-    margin: 0; /* Убираем внешние отступы */
-    padding: 0; /* Убираем внутренние отступы */
+    font-family: 'Roboto', sans-serif;
+    background-color: #575757;
+    color: #FFF;
+    margin: 0;
+    padding: 0;
 }
 
-/* Стиль для навигационного меню */
 nav {
-    background-color: #0066cc; /* Цвет фона навигационного меню */
-    padding: 10px; /* Поля вокруг навигационного меню */
+    background-color: #0d458a;
+    padding: 10px;
 }
 
 nav ul {
-    list-style: none; /* Убираем маркеры списка */
-    padding: 0; /* Убираем отступы списка */
+    list-style: none;
+    padding: 0;
 }
 
 nav ul li {
-    display: inline; /* Элементы списка располагаются в строку */
-    margin-right: 20px; /* Отступ между элементами списка */
+    display: inline-block;
+    margin-right: 20px;
 }
 
 nav ul li a {
-    text-decoration: none; /* Убираем подчеркивание ссылок */
-    color: #FFF; /* Цвет текста ссылок */
-    font-weight: bold; /* Жирный шрифт для ссылок */
+    text-decoration: none;
+    color: #FFF;
+    font-weight: bold;
 }
 
-/* Стиль для заголовка h1 */
 h1 {
-    text-align: center; /* Выравнивание текста по центру */
-    color: #FFF; /* Цвет текста заголовка */
-    margin-top: 40px; /* Верхний отступ заголовка */
-    font-size: 36px; /* Размер шрифта заголовка */
+    text-align: center;
+    color: #FFF;
+    margin-bottom: 100px;
+    font-size: 36px;
 }
 
-/* Стиль для карты */
 #map {
-    width: 800px; /* Ширина карты */
-    height: 600px; /* Высота карты */
-    margin: 20px auto; /* Центрирование карты по горизонтали с отступом сверху и снизу */
-    border: 1px solid #ccc; /* Обводка карты */
+    width: 800px;
+    height: 600px;
+    margin: 20px auto;
+    border: 1px solid #ccc;
 }
 
-/* Стиль для формы */
 form {
-    background-color: #222; /* Цвет фона формы */
-    border: 1px solid #444; /* Обводка формы */
-    border-radius: 5px; /* Скругление углов формы */
-    padding: 20px; /* Внутренние отступы формы */
-    max-width: 450px; /* Максимальная ширина формы */
-    margin: 0 auto; /* Центрирование формы по горизонтали */
-    box-shadow: 0px 0px 10px rgba(44, 108, 19, 0.1); /* Тень формы */
+    background-color: #222;
+    border: 1px solid #444;
+    border-radius: 5px;
+    padding: 20px;
+    max-width: 450px;
+    margin: 0 auto;
+    box-shadow: 0px 0px 10px rgba(44, 108, 19, 0.1);
 }
 
-/* Стиль для полей ввода и меток */
 label {
-    display: block; /* Блочное отображение меток */
-    font-weight: bold; /* Жирный шрифт меток */
-    margin-bottom: 5px; /* Отступ снизу меток */
-    color: #FFF; /* Цвет текста меток */
+    display: block;
+    font-weight: bold;
+    margin-bottom: 5px;
+    color: #FFF;
 }
 
 input[type="text"],
 input[type="password"] {
-    width: 96%; /* Ширина полей ввода на 100% ширины родительского контейнера */
-    padding: 10px; /* Внутренние отступы полей ввода */
-    margin-bottom: 20px; /* Отступ снизу полей ввода */
-    border: 1px solid #444; /* Обводка полей ввода */
-    border-radius: 5px; /* Скругление углов полей ввода */
-    background-color: #333; /* Цвет фона полей ввода */
-    color: #FFF; /* Цвет текста в полях ввода */
+    width: calc(100% - 20px);
+    padding: 10px;
+    margin-bottom: 20px;
+    border: 1px solid #444;
+    border-radius: 5px;
+    background-color: #333;
+    color: #FFF;
 }
 
-/* Стиль для кнопки "Войти" */
 button[type="submit"] {
-    background-color: #0066cc; /* Цвет фона кнопки "Войти" */
-    color: #FFF; /* Цвет текста кнопки "Войти" */
-    border: none; /* Убираем границу кнопки */
-    border-radius: 5px; /* Скругление углов кнопки */
-    padding: 10px 20px; /* Внутренние отступы кнопки */
-    cursor: pointer; /* Задаем курсор в виде указателя при наведении на кнопку */
-    font-size: 16px; /* Размер шрифта кнопки */
-    transition: background-color 0.3s; /* Плавное изменение цвета фона при наведении */
+    background-color: #0066cc;
+    color: #FFF;
+    border: none;
+    border-radius: 5px;
+    padding: 10px 20px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s;
 }
 
 button[type="submit"]:hover {
-    background-color: #004499; /* Новый цвет фона при наведении на кнопку */
+    background-color: #004499;
+}
+/* Добавляем стили для разделительных линий */
+nav ul li.separator {
+    margin: 0 10px; /* Расстояние между разделительными линиями */
+    color: #fff; /* Цвет разделительной линии (можно выбрать подходящий) */
+}
+
+/* Применяем стили для ссылок и разделительных линий */
+nav ul li a, nav ul li.separator {
+    display: inline-block;
+    vertical-align: middle;
+    text-decoration: none;
+    color: #fff; /* Цвет текста (можно выбрать подходящий) */
+}
+
+/* Применяем стили для ссылок при наведении */
+nav ul li a:hover {
+    text-decoration: underline;
 }
