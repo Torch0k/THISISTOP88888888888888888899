@@ -29,4 +29,5 @@ public class UserController {
             return "userNotFound"; // Вернуть имя шаблона для страницы с сообщением "Пользователь не найден"
         }
     }
+
 }

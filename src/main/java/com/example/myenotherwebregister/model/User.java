@@ -12,11 +12,20 @@ public class User {
     private String username;
     private String password;
     String nearestAddress;
+    private String role;
     @Column()
     Float latitude;
     @Column()
     Float longitude;
-    //геттерО и сеттеры
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
+    }
+//геттерО и сеттеры
 
     public float getLatitude() {
         return latitude;

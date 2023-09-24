@@ -10,6 +10,7 @@ import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.List;
 
@@ -40,4 +41,18 @@ public class UserFeedBackService {
         model.addAttribute("feedbackList",feedbackList);
         return "UserFeedBackList";
     }
+    public String showFeedBackAll(Model model) {
+        List<UserFeedBack> userFeedBacksAll = userFeedBackRepository.findAll();
+        model.addAttribute("feedBackListAll", userFeedBacksAll);
+    return "adminFeedBack";
+    }
+    public UserFeedBack getFeedbackById (Long id) {
+        return userFeedBackRepository.findById(id).orElse(null);
+    }
+
+    public void saveFeedback(UserFeedBack feedback) {
+        // Логика сохранения обратной связи
+        userFeedBackRepository.save(feedback);
+    }
+
 }

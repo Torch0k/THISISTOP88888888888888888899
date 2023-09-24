@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" type="text/css" href="../static/stylelogin.css">
+    <title>Feedback List</title>
+</head>
+<body>
+<nav>
+    <ul>
+        <li><a href="/">Главная</a></li>
+        <li th:unless="${session.username != null}" id="loginLink"><a href="/login">Вход</a></li>
+        <li th:unless="${session.username != null}"><a href="/register">Регистрация</a></li>
+        <li><a href="/map">интерактивная карта</a></li>
+        <li><a href="/kabinet">личный кабинет</a></li>
+
+    </ul>
+</nav>
+<table>
+    <thead>
+
+    </thead>
+    <tbody>
+    <tr th:each="feedback : ${feedBackListAll}">
+        <!-- Ячейка для ID -->
+        <td><strong>Id:</strong> <span th:text="${feedback.id}"></span></td>
+
+        <!-- Ячейки с именами заголовками и сообщениями -->
+        <td>
+            <div>
+                <strong>username:</strong> <span th:text="${feedback.username}"></span>
+            </div>
+            <div>
+                <strong>Title:</strong> <span th:text="${feedback.title}"></span>
+            </div>
+            <div>
+                <strong>Message:</strong> <span th:text="${feedback.message}"></span>
+            </div>
+        </td>
+
+
+        <td><a th:href="@{/edit-feedback/{id}(id=${feedback.id})}">Редактировать</a></td> <!-- Добавление ссылки на страницу редактирования с параметром id -->
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>

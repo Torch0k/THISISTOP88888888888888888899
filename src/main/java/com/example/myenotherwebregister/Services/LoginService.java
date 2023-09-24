@@ -23,10 +23,12 @@ public class LoginService {
         User user = new User();
         user.setPassword(password);
         user.setUsername(username);
+        user.setRole("user");
         userRepository.save(user);
         HttpSession session = request.getSession();
         session.setAttribute("username", username);
         session.setAttribute("isLoggedIn", true);
+        session.setAttribute("userRole",user.getRole());// под вопросом пушто юзер то новый а я даунич основ програмирования не знаю и сномневаюсь //todo //туду как мыло дуру
         model.addAttribute("userAddress", user.getNearestAddress());
         // Перенаправляем пользователя на страницу /узнавания адреса
         return "nearestaddress";
@@ -53,6 +55,8 @@ public class LoginService {
             session.setAttribute("username", username); // Устанавливаем атрибут "username" в сессии для обозначения аутентифицированного пользователя
             model.addAttribute("userAddress", user.getNearestAddress());// Добавляем атрибут "userAddress" в модель содержащий информацию о ближайшем адресе пользователя
             session.setAttribute("isLoggedIn", true);
+            session.setAttribute("role",user.getRole());
+            model.addAttribute("role",user.getRole());
             if (user.getNearestAddress() != null) {        // Проверяем, есть ли у пользователя ближайший адрес
                 return showkabinetPage(model,request); // Если есть перенаправляем пользователя на страницу личного кабинета
             } else { // если -
@@ -75,4 +79,5 @@ public class LoginService {
         }
         return null;// Если сессия не существует или имя пользователя не найдено, возвращаем null
     }
+
 }

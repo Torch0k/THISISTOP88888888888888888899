@@ -6,6 +6,7 @@
   <link rel="stylesheet" type="text/css" href="../static/stylelogin.css">
 </head>
 <body>
+<button th:if="${role == 'admin'}">Перейти на следующую страницу<a href="/adminFeedBack">секретная админ панель</a></button>
 <nav>
   <ul>
     <li><a href="/">Главная</a></li>
@@ -14,6 +15,7 @@
     <li><a href="/map">интерактивная карта</a></li>
     <li><a href="/kabinet">личный кабинет</a></li>
     <li><a href="/feedBack"> FeedBack </a></li>
+    <li><a href="/adminFeedBack"> adminFeedBack </a></li>
 
   </ul>
 </nav>
