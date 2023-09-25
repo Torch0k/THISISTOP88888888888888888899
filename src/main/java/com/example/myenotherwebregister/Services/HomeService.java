@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import java.util.List;
 
 @Service
-public class LoginService {
+public class HomeService {
     @Autowired
     public UserRepository userRepository;
     public String SaveUser(
@@ -57,6 +57,7 @@ public class LoginService {
             session.setAttribute("isLoggedIn", true);
             session.setAttribute("role",user.getRole());
             model.addAttribute("role",user.getRole());
+
             if (user.getNearestAddress() != null) {        // Проверяем, есть ли у пользователя ближайший адрес
                 return showkabinetPage(model,request); // Если есть перенаправляем пользователя на страницу личного кабинета
             } else { // если -

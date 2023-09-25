@@ -32,15 +32,12 @@ public class FeedBackController {
         model.addAttribute("feedback", feedback);
         model.addAttribute("title", feedback.getTitle());
         model.addAttribute("message", feedback.getMessage());
-        model.addAttribute("username", feedback.getUsername());
-
+        model.addAttribute("username", feedback.getUsername()); //todo перенести добавление отрибутов в отдельный метод и тут оставить вызво этого метода
         return "feedBackRedactor"; // Название страницы редактирования
     }
     @PostMapping("/save-feedback")
-    public String saveFeedback(@ModelAttribute("feedback") UserFeedBack feedback) {
+    public String saveFeedback(@ModelAttribute("feedback") UserFeedBack feedback,Model model) {
         userFeedBackService.saveFeedback(feedback);
-
-        return "adminFeedBack";
+        return showAdminFeedBack(model);
     }
-
 }

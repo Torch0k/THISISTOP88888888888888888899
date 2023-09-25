@@ -1,6 +1,6 @@
 package com.example.myenotherwebregister.controllers;
 
-import com.example.myenotherwebregister.Services.LoginService;
+import com.example.myenotherwebregister.Services.HomeService;
 import com.example.myenotherwebregister.model.Location;
 import com.example.myenotherwebregister.model.User;
 import com.example.myenotherwebregister.Services.BunkerService;
@@ -15,10 +15,10 @@ public class BunkerController {
     @Autowired
     private  BunkerService bunkerService;
     @Autowired
-    private LoginService loginService;
+    private HomeService homeService;
     @PostMapping("/compare_coordinates")   // Метод для сравнения координат и возвращения результата.
     public ResponseEntity<String> compareCoordinates(@RequestBody Location data, HttpServletRequest request) {
-        User user = loginService.getCurrentUser(request); // Получаем текущего пользователя на основе сессии с помощью loginService.getCurrentUser
+        User user = homeService.getCurrentUser(request); // Получаем текущего пользователя на основе сессии с помощью loginService.getCurrentUser
         if (user != null) { // Если пользователь аутентифицирован не нулл
             String result = bunkerService.compareCoordinates(data, user);  // Вызываем bunkerService.compareCoordinates для сравнения координат и получения результата
             return ResponseEntity.ok(result);  // Возвращаем результат как ответ с кодом 200 OK

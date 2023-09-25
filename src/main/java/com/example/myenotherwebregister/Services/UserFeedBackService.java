@@ -6,18 +6,16 @@ import com.example.myenotherwebregister.constants.FeedBacksStatusConstants;
 import com.example.myenotherwebregister.model.User;
 import com.example.myenotherwebregister.model.UserFeedBack;
 import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.PathVariable;
 
 import java.util.List;
 
 @Service
 public class UserFeedBackService {
     @Autowired
-    private LoginService loginService;
+    private HomeService homeService;
     @Autowired
     public  UserFeedBackRepository userFeedBackRepository;
     @Autowired
@@ -31,7 +29,7 @@ public class UserFeedBackService {
         userFeedBackRepository.save(userFeedBack);
     }
     public String showUserFeedBackList (Model model, HttpServletRequest request){
-        User user = loginService.getCurrentUser(request);
+        User user = homeService.getCurrentUser(request);
         String username = user.getUsername();
 
         List<UserFeedBack> feedbackList = userFeedBackRepository.findByUsername(username);
@@ -50,9 +48,7 @@ public class UserFeedBackService {
         return userFeedBackRepository.findById(id).orElse(null);
     }
 
-    public void saveFeedback(UserFeedBack feedback) {
-        // Логика сохранения обратной связи
-        userFeedBackRepository.save(feedback);
-    }
+    public void saveFeedback(UserFeedBack feedback) {userFeedBackRepository.save(feedback);}// Логика сохранения обратной связи
+
 
 }

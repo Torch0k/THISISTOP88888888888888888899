@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Простой чат</title>
+    <style>
+        /* Стили для чата */
+        #chatContainer {
+            width: 400px;
+            margin: 0 auto;
+        }
+        #chatMessages {
+            border: 1px solid #ccc;
+            padding: 10px;
+            height: 200px;
+            overflow-y: scroll;
+        }
+    </style>
+</head>
+<body>
+
+<div id="chatContainer">
+    <form onsubmit="sendMessage(event)">
+        <p>Username: <span id="username" th:text="${username}"></span></p>
+        <input type="text" id="userMessage" placeholder="Введите сообщение">
+        <button type="submit">Отправить</button>
+    </form>
+    <div id="chatMessages">
+        <!-- Thymeleaf: отобразить сохраненные сообщения -->
+    </div>
+</div>
+
+<script>
+    function sendMessage(event) {
+        event.preventDefault();  // Предотвратить обычное поведение формы (перезагрузка страницы)
+
+        const userName = document.querySelector("#username").innerText;
+        const userMessage = document.getElementById("userMessage").value;
+
+        if (userName && userMessage) {
+            const messageElement = document.createElement("div");
+            messageElement.textContent = `${userName}: ${userMessage}`;
+            document.getElementById("chatMessages").appendChild(messageElement);
+
+            // Очистка поля для ввода сообщения
+            document.getElementById("userMessage").value = "";
+
+            // Отправить сообщение на сервер через fetch
+            sendToServer(userName, userMessage);
+        }
+    }
+
+    function sendToServer(sender, userMessage) {
+        const formData = new FormData();
+        formData.append('message', userMessage);
+        formData.append('sender', sender);
+
+        fetch('/sendMessage', {
+            method: 'POST',
+            body: formData
+        })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json(); // Предполагая, что сервер возвращает JSON
+            })
+            .then(data => {
+                // Обработка успешного ответа от сервера
+                console.log('Server response:', data);
+            })
+            .catch(error => {
+                // Обработка ошибок
+                console.error('There was a problem with the fetch operation:', error);
+            });
+    }
+
+    function updateChat() {
+        fetch('/getAllMessages')
+            .then(response => response.json())
+            .then(data => {
+                const chatMessages = document.getElementById('chatMessages');
+                chatMessages.innerHTML = '';
+
+                data.forEach(message => {
+                    const messageElement = document.createElement('div');
+                    messageElement.textContent = `${message.sender}: ${message.userMessage}`;
+                    chatMessages.appendChild(messageElement);
+                });
+            })
+            .catch(error => console.error('Error fetching messages:', error));
+    }
+
+    function displayMessages() {
+        fetch('/getAllMessages')
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(data => {
+                const chatMessages = document.getElementById('chatMessages');
+                chatMessages.innerHTML = '';  // Очищаем предыдущие сообщения
+
+                // Отобразить новые сообщения
+                data.forEach(message => {
+                    const messageElement = document.createElement('div');
+                    messageElement.textContent = `${message.sender}: ${message.userMessage}`;
+                    chatMessages.appendChild(messageElement);
+                });
+            })
+            .catch(error => {
+                console.error('There was a problem with the fetch operation:', error);
+            });
+    }
+
+    displayMessages();
+
+    // Обновлять чат каждые 5 секунд
+    setInterval(updateChat, 5000);
+</script>
+
+</body>
+</html>
