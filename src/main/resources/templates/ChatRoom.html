@@ -23,37 +23,58 @@
     <form onsubmit="sendMessage(event)">
         <p>Username: <span id="username" th:text="${username}"></span></p>
         <input type="text" id="userMessage" placeholder="Введите сообщение">
+        <input type="file" id="imageInput" accept="image/*">
         <button type="submit">Отправить</button>
     </form>
     <div id="chatMessages">
         <!-- Thymeleaf: отобразить сохраненные сообщения -->
+        <div th:each="message : ${messages}">
+            <div class="message">
+                <span th:text="${message.sender}"></span>: <span th:text="${message.userMessage}"></span>
+                <img th:if="${message.imagePath}" th:src="${message.imagePath}" alt="Image"/>
+            </div>
+        </div>
     </div>
 </div>
 
 <script>
     function sendMessage(event) {
-        event.preventDefault();  // Предотвратить обычное поведение формы (перезагрузка страницы)
+        event.preventDefault();
 
         const userName = document.querySelector("#username").innerText;
         const userMessage = document.getElementById("userMessage").value;
+        const imageInput = document.getElementById("imageInput");
+        const image = imageInput.files[0];
+
+        const messageElement = document.createElement("div");
+        messageElement.classList.add("message");
 
         if (userName && userMessage) {
-            const messageElement = document.createElement("div");
             messageElement.textContent = `${userName}: ${userMessage}`;
-            document.getElementById("chatMessages").appendChild(messageElement);
-
-            // Очистка поля для ввода сообщения
-            document.getElementById("userMessage").value = "";
-
-            // Отправить сообщение на сервер через fetch
-            sendToServer(userName, userMessage);
         }
+
+        if (image) {
+            const imageElement = document.createElement("img");
+            imageElement.src = URL.createObjectURL(image);
+            messageElement.appendChild(imageElement);
+        }
+
+        document.getElementById("chatMessages").appendChild(messageElement);
+        document.getElementById("userMessage").value = "";
+        imageInput.value = "";
+
+        // Вызываем функцию для отправки данных на сервер
+        sendToServer(userName, userMessage, image);
     }
 
-    function sendToServer(sender, userMessage) {
+    function sendToServer(userName, userMessage, image) {
         const formData = new FormData();
         formData.append('message', userMessage);
-        formData.append('sender', sender);
+        formData.append('sender', userName);
+
+        if (image) {
+            formData.append('image', image);
+        }
 
         fetch('/sendMessage', {
             method: 'POST',
@@ -68,6 +89,8 @@
             .then(data => {
                 // Обработка успешного ответа от сервера
                 console.log('Server response:', data);
+                // Предположим, что у вас есть функция для обновления чата
+                updateChat();
             })
             .catch(error => {
                 // Обработка ошибок
@@ -84,7 +107,16 @@
 
                 data.forEach(message => {
                     const messageElement = document.createElement('div');
+                    messageElement.classList.add('message');
                     messageElement.textContent = `${message.sender}: ${message.userMessage}`;
+
+                    if (message.imagePath) {
+                        const imageElement = document.createElement('img');
+                        imageElement.src = '/' + message.imagePath;  // Используем относительный путь
+                        imageElement.alt = 'Image';
+                        messageElement.appendChild(imageElement);
+                    }
+
                     chatMessages.appendChild(messageElement);
                 });
             })
@@ -93,26 +125,27 @@
 
     function displayMessages() {
         fetch('/getAllMessages')
-            .then(response => {
-                if (!response.ok) {
-                    throw new Error('Network response was not ok');
-                }
-                return response.json();
-            })
+            .then(response => response.json())
             .then(data => {
                 const chatMessages = document.getElementById('chatMessages');
-                chatMessages.innerHTML = '';  // Очищаем предыдущие сообщения
+                chatMessages.innerHTML = '';
 
-                // Отобразить новые сообщения
                 data.forEach(message => {
                     const messageElement = document.createElement('div');
+                    messageElement.classList.add('message');
                     messageElement.textContent = `${message.sender}: ${message.userMessage}`;
+
+                    if (message.imagePath) {
+                        const imageElement = document.createElement('img');
+                        imageElement.src = '/' + message.imagePath;  // Используем относительный путь
+                        imageElement.alt = 'Image';
+                        messageElement.appendChild(imageElement);
+                    }
+
                     chatMessages.appendChild(messageElement);
                 });
             })
-            .catch(error => {
-                console.error('There was a problem with the fetch operation:', error);
-            });
+            .catch(error => console.error('Error fetching messages:', error));
     }
 
     displayMessages();
