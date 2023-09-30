@@ -57,6 +57,7 @@ public class HomeService {
             session.setAttribute("isLoggedIn", true);
             session.setAttribute("role",user.getRole());
             model.addAttribute("role",user.getRole());
+            session.setAttribute("userAddress",user.getNearestAddress());
 
             if (user.getNearestAddress() != null) {        // Проверяем, есть ли у пользователя ближайший адрес
                 return showkabinetPage(model,request); // Если есть перенаправляем пользователя на страницу личного кабинета

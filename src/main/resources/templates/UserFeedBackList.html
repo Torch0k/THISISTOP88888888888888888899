@@ -6,17 +6,12 @@
     <title>Title</title>
 </head>
 <body>
-<nav>
-    <ul>
-        <li><a href="/">Главная</a></li>
-        <li th:unless="${session.username != null}" id="loginLink"><a href="/login">Вход</a></li>
-        <li th:unless="${session.username != null}"><a href="/register">Регистрация</a></li>
-        <li><a href="/map">интерактивная карта</a></li>
-        <li><a href="/kabinet">личный кабинет</a></li>
+<section th:replace="fragments/LoginRedirect :: content"></section>
+<section th:replace="fragments/AddressRedirect :: address"></section>
 
-    </ul>
-</nav>
-<h1> фидбек</h1>
+
+<nav th:replace="~{fragments/NavigationBar :: navbar}"></nav>
+<h1> Мои Фидбеки</h1>
 <ul>
     <li th:each="feedback : ${feedbackList}">
         <div>

@@ -1,17 +1,16 @@
 package com.example.myenotherwebregister.controllers;
 
 import com.example.myenotherwebregister.Repository.UserPostsRepository;
+import com.example.myenotherwebregister.Repository.UserRepository;
 import com.example.myenotherwebregister.Services.UserPostService;
 import com.example.myenotherwebregister.model.UserPost;
 import jakarta.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
@@ -26,9 +25,12 @@ public  class UserPostsController {
     private UserPostService userPostService;
     @Autowired
     UserPostsRepository userPostsRepository;
+    @Autowired
+    UserRepository userRepository;
     @GetMapping("ChatRoom")
     String showChatRoom (Model model, HttpSession session){
      String username = (String) session.getAttribute("username");
+
 
         model.addAttribute("username",username);
         return "ChatRoom";
@@ -37,27 +39,26 @@ public  class UserPostsController {
     public String sendMessage(
             @RequestParam("message") String message,
             @RequestParam("sender") String sender,
-            @RequestParam("image") MultipartFile image,
+            @RequestParam(value = "image", required = false) MultipartFile image,
             Model model,
             HttpSession session
     ) {
+
         UserPost userPost = new UserPost();
         userPost.setUserMessage(message);
         userPost.setSender(sender);
 
-
-        // Обработка изображения
-        if (!image.isEmpty()) {
+        // Обработка изображения только если оно было загружено
+        if (image != null && !image.isEmpty()) {
             try {
                 String fileName = StringUtils.cleanPath(image.getOriginalFilename());
 
                 // Определите путь к папке, где будут храниться изображения (в данном случае, корень вашего приложения)
                 String uploadDir = "ChatImages";
 
-                // Создайте путь для сохранения изображения
+                // Создаем путь для сохранения изображения
                 Path uploadPath = Paths.get(uploadDir);
 
-                // Убедитесь, что директория существует, иначе создайте её
                 if (!Files.exists(uploadPath)) {
                     Files.createDirectories(uploadPath);
                 }
@@ -88,6 +89,11 @@ public  class UserPostsController {
     @ResponseBody
     public List<UserPost> getMessages() {
         return userPostService.getAllUserPosts();
+    }
+    @DeleteMapping("/messages/{id}")
+    public ResponseEntity<String> deleteMessage(@PathVariable("id") Long id) {
+        userPostsRepository.deleteById(id);
+        return ResponseEntity.ok().body("Message deleted successfully");
     }
 
 }

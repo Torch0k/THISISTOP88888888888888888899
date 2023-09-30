@@ -6,17 +6,12 @@
     <link rel="stylesheet" type="text/css" href="../static/stylelogin.css">
 </head>
 <body>
-<nav>
-    <ul>
-        <li><a href="/">Главная</a></li>
-        <li th:unless="${session.username != null}" id="loginLink"><a href="/login">Вход</a></li>
-        <li th:unless="${session.username != null}"><a href="/register">Регистрация</a></li>
-        <li><a href="/map">интерактивная карта</a></li>
-        <li><a href="/kabinet">личный кабинет</a></li>
-        <li><a href="/feedBack"> FeedBack </a></li>
+<section th:replace="~{fragments/LoginRedirect :: content}"></section>
+<section th:replace="fragments/AddressRedirect :: address"></section>
 
-    </ul>
-</nav>
+
+<nav th:replace="~{fragments/NavigationBar :: navbar}"></nav>
+
 <h2>Обратная связь</h2>
 <form th:action="@{/feedBackSent}" method="post">
 <label for="title">Заголовок темы:</label>
@@ -29,5 +24,7 @@
 
     <button type="submit">Отправить</button>
 </form>
+
+</script>
 </body>
 </html>

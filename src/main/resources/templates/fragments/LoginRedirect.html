@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="ru" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+  <link rel="stylesheet" type="text/css" href="../../static/stylelogin.css">
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+</head>
+<body>
+<nav th:fragment="content">
+
+<nav th:if="${session.username == null}">
+  <script th:src="@{/js/redirect.js}"></script>
+</nav>
+<script th:if="${session.username == null}">
+  window.location.href = '/login';
+</script>
+</nav>
+</body>
+</html>

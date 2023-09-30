@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+  <link rel="stylesheet" type="text/css" href="../../static/stylelogin.css">
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+</head>
+<body>
+<nav th:fragment="navbar">
+  <ul>
+    <li><a href="/index">Главная</a></li>
+    <li  class="separator">|</li>
+
+    <li th:unless="${session.username != null}" id="loginLink"><a href="/login">Вход</a></li>
+    <li th:unless="${session.username != null}" class="separator">|</li>
+
+    <li th:unless="${session.username != null}"><a href="/register">Регистрация</a></li>
+    <li th:unless="${session.username != null}" class="separator">|</li>
+
+    <li><a href="/map">Интерактивная карта</a></li>
+    <li  class="separator">|</li>
+
+    <li th:unless="${session.username == null}"><a href="/kabinet">Личный кабинет</a></li>
+    <li th:unless="${session.username == null}" class="separator">|</li>
+
+    <li th:unless="${session.username == null}"><a href="/UserFeedBackList">Мои Фидбеки</a></li>
+    <li th:unless="${session.username == null}" class="separator">|</li>
+
+    <li th:unless="${session.username == null}"><a href="/ChatRoom">Чат рум</a></li>
+    <li th:unless="${session.username == null}" class="separator">|</li>
+
+    <li th:unless="${session.username == null}"><a href="/BunkerChat">Чат рум Твоего Бункера</a></li>
+    <li th:unless="${session.username == null}" class="separator">|</li>
+
+    <li th:if="${role == 'admin'}"><a href="/adminFeedBack"> adminFeedBack </a></li>
+    <li th:if="${role == 'admin'}" class="separator">|</li>
+  </ul>
+</nav>
+
+</body>
+</html>

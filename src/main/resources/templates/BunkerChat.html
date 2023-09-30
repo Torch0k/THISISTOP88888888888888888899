@@ -1,5 +1,9 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
+<link rel="stylesheet" type="text/css" href="../static/stylelogin.css">
+<section th:replace="fragments/LoginRedirect :: content"></section>
+
+<nav th:replace="~{fragments/NavigationBar :: navbar}"></nav>
 <head>
     <meta charset="UTF-8">
     <title>Простой чат</title>
@@ -17,6 +21,7 @@
         }
         
     </style>
+
 </head>
 <body>
 
@@ -24,7 +29,6 @@
     <form onsubmit="sendMessage(event)">
         <p>Username: <span id="username" th:text="${username}"></span></p>
         <p>userAddress: <span id="userAddress" th:text="${userAddress}"></span></p>
-
 
         <input type="text" id="userMessage" placeholder="Введите сообщение">
         <button type="submit">Отправить</button>
@@ -64,7 +68,7 @@
     }
 
     function sendMessageToServer(formData) {
-        fetch('/sendMessage', {
+        fetch('/sendBunkerMessage', {
             method: 'POST',
             body: formData
         })

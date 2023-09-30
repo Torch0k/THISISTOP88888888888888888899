@@ -6,19 +6,12 @@
   <link rel="stylesheet" type="text/css" href="../static/stylelogin.css">
 </head>
 <body>
-<button th:if="${role == 'admin'}">Перейти на следующую страницу<a href="/adminFeedBack">секретная админ панель</a></button>
-<nav>
-  <ul>
-    <li><a href="/">Главная</a></li>
-    <li th:unless="${session.username != null}" id="loginLink"><a href="/login">Вход</a></li>
-    <li th:unless="${session.username != null}"><a href="/register">Регистрация</a></li>
-    <li><a href="/map">интерактивная карта</a></li>
-    <li><a href="/kabinet">личный кабинет</a></li>
-    <li><a href="/feedBack"> FeedBack </a></li>
-    <li><a href="/adminFeedBack"> adminFeedBack </a></li>
 
-  </ul>
-</nav>
+<section th:replace="fragments/LoginRedirect :: content"></section>
+<section th:replace="fragments/AddressRedirect :: address"></section>
+
+<nav th:replace="~{fragments/NavigationBar :: navbar}"></nav>
+
 <h1>Ближайший бункер - <span th:text="${userAddress}"></span></h1>
 
 <table>
@@ -35,5 +28,6 @@
   </tr>
   </tbody>
 </table>
+
 </body>
 </html>

@@ -3,34 +3,14 @@
 <head>
   <meta charset="UTF-8">
   <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+
   <title>Мой веб-сайт</title>
   <link rel="stylesheet" type="text/css" href="../static/stylelogin.css">
   <script src="https://api-maps.yandex.ru/2.1/?apikey=8357b4a6-e8d0-4242-9797-06cb372b417e&lang=ru_RU"></script>
 </head>
 <body>
-<header>
-  <h1 class="site-title">В Бункере</h1>
-  <nav>
-    <ul>
 
-      <li th:unless="${session.username != null}" id="loginLink"><a href="/login">Вход</a></li>
-      <li th:unless="${session.username != null}" class="separator">|</li>
-      <li th:unless="${session.username != null}"><a href="/register">Регистрация</a></li>
-      <li class="separator">|</li>
-      <li><a href="/map">Интерактивная карта</a></li>
-      <li class="separator">|</li>
-      <li><a href="/kabinet">Личный кабинет</a></li>
-      <li class="separator">|</li>
-      <li><a href="/UserFeedBackList">Фидбекстарничка</a></li>
-      <li class="separator">|</li>
-      <li><a href="/ChatRoom">Чат рум</a></li>
-      <li class="separator">|</li>
-
-
-    </ul>
-  </nav>
-</header>
-
+<nav th:replace="~{fragments/NavigationBar :: navbar}"></nav>
 <main>
   <section>
     <h3> сайт "ВБункере". Здесь ты можешь узнать ближайшее к тебе бомбоубежище, а также узнать своих друзей по бомбоубежищу.</h3>

@@ -1,5 +1,15 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
+
+<section th:replace="fragments/LoginRedirect :: content"></section>
+<nav th:replace="~{fragments/NavigationBar :: navbar}"></nav>
+
+<nav th:if="${role != 'admin'}">
+    <script th:src="@{/js/redirect.js}"></script>
+    <script th:if="${session.username == null}">
+        window.location.href = '/index';
+    </script>
+</nav>
 <head>
     <meta charset="UTF-8">
     <link rel="stylesheet" type="text/css" href="../static/stylelogin.css">

@@ -6,15 +6,7 @@
     <link rel="stylesheet" type="text/css" href="../static/stylelogin.css">
 </head>
 <body>
-<nav>
-    <ul>
-        <li><a href="/">Главная</a></li>
-        <li th:unless="${session.username != null}" id="loginLink"><a href="/login">Вход</a></li>
-        <li th:unless="${session.username != null}"><a href="/register">Регистрация</a></li>
-        <li><a href="/map">интерактивная карта</a></li>
-        <li><a href="/kabinet">личный кабинет</a></li>
-    </ul>
-</nav>
+<nav th:replace="~{fragments/NavigationBar :: navbar}"></nav>
 <div class="container">
 
 
