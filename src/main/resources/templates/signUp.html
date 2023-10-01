@@ -10,10 +10,8 @@
 <section th:replace="fragments/EmailRedirect :: Code"></section>
 
 <div class="container">
-
-
     <h2>Регистрация</h2>
-    <form th:action="@{/saveUser}" method="post" class="registration-form">
+    <form id="registrationForm" th:action="@{/saveUser}" method="post" class="registration-form">
         <div class="form-group">
             <label for="username">Логин:</label>
             <input type="text" id="username" name="username" class="input-field">
@@ -23,11 +21,25 @@
             <input type="password" id="password" name="password" class="input-field">
         </div>
         <div class="form-group">
-            <label for="email">email:</label>
+            <label for="email">Email:</label>
             <input type="email" id="email" name="email" class="input-field">
         </div>
-        <button type="submit" class="submit-button">Отправить</button>
+        <button type="button" class="submit-button" onclick="validateForm()">Отправить</button>
     </form>
 </div>
+
+<script>
+    function validateForm() {
+        var username = document.getElementById('username').value;
+        var password = document.getElementById('password').value;
+        var email = document.getElementById('email').value;
+
+        if (!username || !password || !email) {
+            alert('Пожалуйста, заполните все поля.');
+        } else {
+            document.getElementById('registrationForm').submit();
+        }
+    }
+</script>
 </body>
 </html>
