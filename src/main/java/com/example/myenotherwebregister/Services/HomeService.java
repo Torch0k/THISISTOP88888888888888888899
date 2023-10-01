@@ -8,30 +8,46 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.thymeleaf.util.StringUtils;
 
 import java.util.List;
+import java.util.UUID;
 
 @Service
 public class HomeService {
     @Autowired
     public UserRepository userRepository;
+    @Autowired
+    public MailSender mailSender;
     public String SaveUser(
             @RequestParam String username,
-            @RequestParam String password,
+            @RequestParam String password,String email,
             HttpServletRequest request, Model model) {
         // Создание нового пользователя и добавление его в репозиторий
         User user = new User();
         user.setPassword(password);
         user.setUsername(username);
+        user.setEmail(email);
         user.setRole("user");
-        userRepository.save(user);
+
         HttpSession session = request.getSession();
         session.setAttribute("username", username);
         session.setAttribute("isLoggedIn", true);
-        session.setAttribute("userRole",user.getRole());// под вопросом пушто юзер то новый а я даунич основ програмирования не знаю и сномневаюсь //todo //туду как мыло дуру
+        session.setAttribute("userRole",user.getRole());// под вопросом  //todo //туду как мыло дуру
         model.addAttribute("userAddress", user.getNearestAddress());
+        user.setActivationCode(UUID.randomUUID().toString());
+        session.setAttribute("userActivation",user.getActivationCode());
+        session.setAttribute("userAddress",user.getNearestAddress());
+        userRepository.save(user);
+        if(!StringUtils.isEmpty(user.getEmail())){
+            String message = String.format("привет %s! \n" + "перейди по ссылке и для завершения регистрации: http://95.84.138.219:8085/activate/%s",
+            user.getUsername(),
+                    user.getActivationCode() );
+
+            mailSender.sendEmail(user.getEmail(),message,"activationcode");
+        }
         // Перенаправляем пользователя на страницу /узнавания адреса
-        return "nearestaddress";
+        return "nearestaddress"; // TODO: 01.10.2023 сделать страничку которая просит подтвердить мейл
     }
     public String showkabinetPage(Model model,HttpServletRequest request) {
         HttpSession session = request.getSession();//получаем обьект сессии из hhtp запроса
@@ -58,6 +74,7 @@ public class HomeService {
             session.setAttribute("role",user.getRole());
             model.addAttribute("role",user.getRole());
             session.setAttribute("userAddress",user.getNearestAddress());
+            session.setAttribute("userActivation",user.getActivationCode());
 
             if (user.getNearestAddress() != null) {        // Проверяем, есть ли у пользователя ближайший адрес
                 return showkabinetPage(model,request); // Если есть перенаправляем пользователя на страницу личного кабинета
@@ -68,7 +85,7 @@ public class HomeService {
 
         model.addAttribute("error", "Неверное имя пользователя или пароль"); // Если пользователь не найден или пароль не совпадает, добавляем атрибут "error" в модель
         model.addAttribute("isLoggedIn", false);                             // с сообщением об ошибке и возвращаем страницу входа с сообщением об ошибке //
-        return "login";                                                                             // TODO: 11.09.2023 помоему я не использую вывод сообщения и модель error надобы удалить .
+        return "login";                                                                             //
 
     }
     public User getCurrentUser(HttpServletRequest request) {   // Метод для получения текущего пользователя на основе сессии.
@@ -82,4 +99,14 @@ public class HomeService {
         return null;// Если сессия не существует или имя пользователя не найдено, возвращаем null
     }
 
+    public boolean activateUser(String code) {
+       User user = userRepository.findByActivationCode(code);
+       if(user == null){
+           return false;
+       }
+       user.setActivationCode(null);
+       userRepository.save(user);
+
+        return true;
+    }
 }

@@ -31,8 +31,10 @@ public class HomeController {
     public String feedBack(){return "feedBack";}
     @GetMapping("feeBackList")
     public String feeBackList(){return "UserFeedBackList";}
- @GetMapping("nearestaddress")
- public String shownearestaddress(){return "nearestaddress";}
+    @GetMapping("nearestaddress")
+    public String shownearestaddress(){return "nearestaddress";}
+    @GetMapping("ConfirmEmail")
+    public String shownConfirmEmail(){return "ConfirmEmail";}
 
 }
 

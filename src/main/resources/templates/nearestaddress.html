@@ -55,16 +55,17 @@
         });
     }
     function sendCoordinatesToServer(coordinates) {
+        var userAddress = '<%= session.getAttribute("userAddress") %>';
         // Отправляем координаты на сервер с использованием jQuery
         $.ajax({
             type: "POST", // Тип запроса (POST)
             url: "/bunker/compare_coordinates", // URL вашего метода на сервере
             contentType: "application/json",
-            data: JSON.stringify({latitude: coordinates[0], longitude: coordinates[1]}), // Отправляем широту и долготу
+            data: JSON.stringify({latitude: coordinates[0], longitude: coordinates[1],userAddress: userAddress}), // Отправляем широту и долготу
             success: function (response) {
                 // Обработка успешного ответа от сервера
                 document.getElementById("comparisonResult").innerText = response;
-                window.location.href = "index";
+                window.location.href = "ConfirmEmail";
             },
             error: function () {
                 // Обработка ошибок, если таковые возникнут

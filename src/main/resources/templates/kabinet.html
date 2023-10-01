@@ -4,15 +4,27 @@
   <meta charset="UTF-8">
   <title>Ближайший бункер</title>
   <link rel="stylesheet" type="text/css" href="../static/stylelogin.css">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
 </head>
 <body>
 
+<!-- Отображение сообщения -->
+<div th:if="${message}" class="alert alert-success" role="alert">
+  <strong>Сообщение:</strong> <span th:text="${message}"></span>
+</div>
+
 <section th:replace="fragments/LoginRedirect :: content"></section>
+<section th:replace="fragments/EmailRedirect :: Code"></section>
+
 <section th:replace="fragments/AddressRedirect :: address"></section>
+
 
 <nav th:replace="~{fragments/NavigationBar :: navbar}"></nav>
 
 <h1>Ближайший бункер - <span th:text="${userAddress}"></span></h1>
+<div th:if="${message}" class="alert alert-success" role="alert">
+  <strong>Сообщение:</strong> <span th:text="${message}"></span>
+</div>
 
 <table>
   <thead>
@@ -28,6 +40,9 @@
   </tr>
   </tbody>
 </table>
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+
 
 </body>
 </html>

@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+  <link rel="stylesheet" type="text/css" href="../../static/stylelogin.css">
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+</head>
+<body>
+<nav th:fragment="Code">
+
+  <nav th:if="${session.userActivation != null}">
+    <script th:src="@{/js/redirect.js}"></script>
+  </nav>
+  <script th:if="${session.userActivation != null}">
+    window.location.href = '/ConfirmEmail';
+  </script>
+</nav>
+</body>
+</html>

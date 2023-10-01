@@ -17,6 +17,25 @@ public class User {
     Float latitude;
     @Column()
     Float longitude;
+    private String email;
+
+    private String activationCode;
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public String getActivationCode() {
+        return activationCode;
+    }
+
+    public void setActivationCode(String activationCode) {
+        this.activationCode = activationCode;
+    }
 
     public String getRole() {
         return role;

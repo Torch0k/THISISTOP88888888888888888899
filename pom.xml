@@ -59,7 +59,7 @@
         <dependency>
             <groupId>org.json</groupId>
             <artifactId>json</artifactId>
-             <version>20210307</version>
+             <version>20230227</version>
         </dependency>
         <dependency>
             <groupId>cloud.piranha.webapp</groupId>
@@ -71,6 +71,22 @@
             <artifactId>vertx-httpservlet</artifactId>
             <version>2.2.1</version>
         </dependency>
+        <dependency>
+            <groupId>de.vinado.boot</groupId>
+            <artifactId>spring-boot-starter-dkim-javamail</artifactId>
+            <version>1.2.2</version>
+        </dependency>
+        <dependency>
+            <groupId>net.ifok.mail</groupId>
+            <artifactId>mail-spring-boot-starter</artifactId>
+            <version>1.0.1</version>
+        </dependency>
+        <dependency>
+            <groupId>com.sun.mail</groupId>
+            <artifactId>jakarta.mail</artifactId>
+            <version>1.6.4</version> <!-- или другая актуальная версия -->
+        </dependency>
+
 
 
     </dependencies>
